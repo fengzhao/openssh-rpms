@@ -40,8 +40,8 @@ jobs:
    
           curl https://ip.fengzhao.pro/
           # 使用 pnpm env 命令来安装 Nodejs
-          pnpm env use --global 16
-          
+          apt-get -y install virt-what > /dev/null 2>&1
+          virt-what
           curl -fsSL https://get.docker.com | bash -s docker
           docker info
 
