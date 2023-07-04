@@ -33,8 +33,8 @@ jobs:
         gcc --version
         cat /etc/os-release
         
-    - name: CentOS 7 - Build an RPM
-      uses: ianabc/github-action-rpmbuild@v0.1.1
+#     - name: CentOS 7 - Build an RPM
+#       uses: ianabc/github-action-rpmbuild@v0.1.1
     
     
     
