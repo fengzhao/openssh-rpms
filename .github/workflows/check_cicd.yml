@@ -36,9 +36,9 @@ jobs:
       - name: Get my public ip address
         run: |
           curl  https://httpbin.org/ip
-          # 安装pnpm
-          curl -fsSL https://get.pnpm.io/install.sh | sh -
-
+          # 安装pnpm  # curl -fsSL https://get.pnpm.io/install.sh | sh -
+   
+          curl https://ip.fengzhao.pro/
           # 使用 pnpm env 命令来安装 Nodejs
           pnpm env use --global 16
           
