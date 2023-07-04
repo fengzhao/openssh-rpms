@@ -1,0 +1,54 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Run on CentOS 7
+    runs-on: ubuntu-latest
+    container:
+      image: "centos:7"  # 需要运行的容器镜像（参考 docker hub）
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Test
+      run: |
+        yum makecache
+        yum install -y centos-release-scl-rh centos-release-scl
+        yum install -y devtoolset-10-gcc devtoolset-10-gcc-c++ devtoolset-10-make
+        source /opt/rh/devtoolset-10/enable
+        gcc --version
+        cat /etc/os-release
+        
+    - name: CentOS 7 - Build an RPM
+      uses: ianabc/github-action-rpmbuild@v0.1.1
+    
+    
+    
+    - name: build RPM package
+      id: rpm
+      uses: naveenrajm7/rpmbuild@master
+      with:
+        spec_file: "el7/SPECS/openssh.spec"
+        additional_repos: "['centos-release-scl', 'http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm']"
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: Binary RPM
+        path: ${{ steps.rpm.outputs.rpm_dir_path }}
+
+
